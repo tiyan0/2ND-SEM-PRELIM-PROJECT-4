@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,21 +16,23 @@ namespace _2ND_SEM_PRELIM_PROJECT_4
             Console.Write("Enter the Path to the Text File: ");
             string filePath = Console.ReadLine();
 
+
             while (!File.Exists(filePath))
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Invalid file path. Please try again.");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("▒▒▒▄██████████████▄▒▒▒ ▒▒▒▄██████████████▄▒▒▒"); 
+                Console.WriteLine("▒▒▒▄██████████████▄▒▒▒ ▒▒▒▄██████████████▄▒▒▒");
                 Console.WriteLine("▒▒▐███▒▒▒▀▒▒▀▒▒▒███▌▒▒ ▒▒▐███▒▒▒▀▒▒▀▒▒▒███▌▒▒");
                 Console.WriteLine("▒▒▒██▒▒▀▀▀▀▀▀▀▀▒▒██▒▒▒ ▒▒▒██▒▒▀▀▀▀▀▀▀▀▒▒██▒▒▒");
                 Console.WriteLine("▒▒▒▒▀████████████▀▒▒▒▒ ▒▒▒▒▀████████████▀▒▒▒▒");
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.Write("Enter the path to the text file: ");
                 filePath = Console.ReadLine();
-                
+
+
             }
-            
+
 
             // Write analysis results to 'results.txt'
             WriteResultsToFile(filePath);
@@ -40,7 +42,7 @@ namespace _2ND_SEM_PRELIM_PROJECT_4
             Console.ReadKey();
 
         }
-        
+
         static string StreamRead(string file)
         {
             string readstring = "";
@@ -88,7 +90,7 @@ namespace _2ND_SEM_PRELIM_PROJECT_4
         static int CountSentences(string text)
         {
             string[] sentences = text.Split(new[] { '.', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
-            return sentences.Length;
+            return sentences.Length - 1;
         }
 
         static void WriteResultsToFile(string fileContent)
@@ -101,33 +103,26 @@ namespace _2ND_SEM_PRELIM_PROJECT_4
             word.Add(words[0]);
             for (int i = 1; i < words.Length; i++)
             {
-
                 if (words[i] != words[i - 1])
                 {
                     word.Add(words[i]);
                 }
             }
+
+            int[] uniqueWordCounts = CountUniqueWords(text);
+
             using (StreamWriter writer = new StreamWriter("results.txt"))
             {
-
-
                 writer.WriteLine($"Word count: {CountWords(text)}");
                 writer.WriteLine($"Sentence count: {CountSentences(text)}");
                 writer.WriteLine("Unique word counts:");
 
-
-                for (int i = 0; i < CountUniqueWords(text).Length; i++)
+                for (int i = 0; i < word.Count && i < uniqueWordCounts.Length; i++)
                 {
-                    writer.WriteLine($"{word[i]}: {CountUniqueWords(text)[i]}");
-
+                    writer.WriteLine($"{word[i]}: {uniqueWordCounts[i]}");
                 }
-
-
             }
 
         }
-
     }
-
 }
-    
